@@ -58,11 +58,11 @@ class Solution:
         p, q = l1, l2
         cur = dummy_head = ListNode(0)
         carry = 0
-        while p or q:
+        while p or q or carry:
             x = p.val if p else 0
             y = q.val if q else 0
-            s = carry + x + y
-            carry, r = divmod(s, 10)
+            carry += x + y
+            carry, r = divmod(carry, 10)
 
             cur.next = ListNode(r)
             cur = cur.next
@@ -71,9 +71,6 @@ class Solution:
                 q = q.next
             if p:
                 p = p.next
-
-        if carry > 0:
-            cur.next = ListNode(1)
 
         return dummy_head.next
 
