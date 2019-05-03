@@ -60,36 +60,35 @@ class Solution(object):
         if not head:
             return head
 
-        # 分别复制，并插入原节点后面
+        # 顺序复制，并插入原节点后面
         cur = head
         while cur:
             node = Node(cur.val, None, None)
             node.next = cur.next
             cur.next = node
             cur = cur.next.next
+
         cur = head
         while cur:
             if cur.random:
+                # 当前节点的random指向的位置，也被复制到指向位置后一个了
                 cur.next.random = cur.random.next
             cur = cur.next.next
 
         # 分裂复制的节点链表
-        head_new = head.next
-        cur_old = head
-        cur_new = head_new
-        while cur_new.next:
-            cur_old.next = cur_new.next
-            cur_old = cur_old.next
-            cur_new.next = cur_old.next
-            cur_new = cur_new.next
-        cur_old.next = cur_new.next = None
-        return head_new
+        new_head = head.next
+        p_old = head
+        p_new = new_head
+        while p_new.next:
+            # 老链表顺序后移
+            p_old.next = p_new.next
+            p_old = p_old.next
 
+            # 新链表顺序后移
+            p_new.next = p_old.next
+            p_new = p_new.next
 
+        p_old.next = None
 
+        return new_head
 
-
-
-            
-            
-            
