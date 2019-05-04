@@ -71,12 +71,13 @@ class Solution(object):
         j = head.next
 
         # 存在环，则一定会相遇
-        while j and j.next:
+        while j and j.next and i != j:
             i = i.next
             j = j.next.next
-            if i == j:
-                return True
 
-        return False
+        if i == j:
+            return True
+        else:
+            return False
 
 
