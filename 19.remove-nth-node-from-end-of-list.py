@@ -1,14 +1,14 @@
 #
-# @lc app=leetcode.cn id=19 lang=python
+# @lc app=leetcode.cn id=19 lang=python3
 #
 # [19] 删除链表的倒数第N个节点
 #
 # https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/description/
 #
 # algorithms
-# Medium (32.51%)
-# Total Accepted:    36.4K
-# Total Submissions: 110.8K
+# Medium (36.80%)
+# Total Accepted:    103.7K
+# Total Submissions: 281.8K
 # Testcase Example:  '[1,2,3,4,5]\n2'
 #
 # 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
@@ -32,55 +32,31 @@
 # Definition for singly-linked list.
 
 
-#  class ListNode(object):
-    #  def __init__(self, x):
-        #  self.val = x
-        #  self.next = None
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 
-class Solution1(object):
-    def removeNthFromEnd(self, head, n):
-        """
-        :type head: ListNode
-        :type n: int
-        :rtype: ListNode
-        """
-        dummy_head = ListNode(None)
-        dummy_head.next = head
-        cur, length = head, 0
-        while cur:
-            length += 1
-            cur = cur.next
-
-        length -= n
-        cur = dummy_head
-        while length > 0:
-            length -= 1
-            cur = cur.next
-        cur.next = cur.next.next
-        return dummy_head.next
-
-
-class Solution(object):
-    def removeNthFromEnd(self, head, n):
-        """
-        :type head: ListNode
-        :type n: int
-        :rtype: ListNode
-        """
-        # 前后指针：前指针先走N步
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         left, right = head, head
-        for i in range(n):
+        # 先走n步
+        for _ in range(n):
             right = right.next
-        # 如果走n步到头了，说明总共就N个节点
+
+        # 因为假设n一定对，所以right到头
+        # 则刚好走了n步，倒数第n个节点就是head
+        # 删除head，就返回head之后的节点
+        # 否则n一定小于长度，head一定不是倒数第n个
         if not right:
             return head.next
 
-        # 将右指针走到头，总共需要length-N步
-        # 左指针也同时走了length-N步，位于倒数第N的位置
+        # 同时往前走，right过头、left就就为倒数第n了
+        # 需要找到倒数第n+1，才能方便删除倒数第n
+        # 那right正好到头即可
         while right.next:
             right = right.next
             left = left.next
-        # 移除节点，连接前后指节点
         left.next = left.next.next
         return head
