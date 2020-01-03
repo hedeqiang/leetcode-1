@@ -1,7 +1,7 @@
 #
 # @lc app=leetcode.cn id=876 lang=python3
 #
-# [876] 一手顺子
+# [876] 链表的中间结点
 #
 # https://leetcode-cn.com/problems/middle-of-the-linked-list/description/
 #
