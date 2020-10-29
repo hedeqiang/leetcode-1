@@ -71,7 +71,8 @@ class Solution(object):
 
         return dfs(0, 0)
 
-    def maxProfit(self, prices):
+    # 有状态的dfs
+    def maxProfit1(self, prices):
         d = {}
         if not prices:
             return 0
@@ -105,7 +106,18 @@ class Solution(object):
 
         return dfs(0, 0)
 
+    # 贪心算法
+    # 因为买卖没有手续费、可以无限次买卖
+    # 所以局部的最优解（吃掉每一次涨幅）可以推导出全局最优解
+    def maxProfit(self, prices):
+        profit = 0
+        for i in range(1, len(prices)):
+            earning = prices[i] - prices[i - 1]
+            if earning > 0:
+                profit += earning
+        return profit
 
-prices = [7,1,5,3,6,4]
-res = Solution().maxProfit(prices)
-print(res)
+
+# prices = [7,1,5,3,6,4]
+# res = Solution().maxProfit(prices)
+# print(res)
