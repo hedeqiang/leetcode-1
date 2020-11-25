@@ -73,8 +73,9 @@
 
 from collections import Counter
 
+
 class Solution(object):
-    def sortString(self, s):
+    def sortString0(self, s):
         if len(s) <= 1:
             return s
         ret = []
@@ -90,4 +91,22 @@ class Solution(object):
             up = not up
             ret.extend(ans)
 
+        return "".join(ret)
+
+    # 用桶计数来实现了升序和降序，实现了Counter的功能
+    def sortString(self, s):
+        num = [0] * 26
+        for ch in s:
+            num[ord(ch) - ord("a")] += 1
+
+        ret = list()
+        while len(ret) < len(s):
+            for i in range(26):
+                if num[i]:
+                    ret.append(chr(i + ord("a")))
+                    num[i] -= 1
+            for i in range(25, -1, -1):
+                if num[i]:
+                    ret.append(chr(i + ord("a")))
+                    num[i] -= 1
         return "".join(ret)
