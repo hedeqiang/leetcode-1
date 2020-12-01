@@ -62,10 +62,33 @@ class Solution(object):
         return [first, last]
 
     def searchRange(self, nums, target):
-        left_index = nums.index(target)
-        if left_index == len(nums) - 1 or nums[left_index] != target:
-            return [-1, -1]
+        # 有序，用二分查找
+        def _binary_search(nums, target, lower):
+            left, right = 0, len(nums) - 1
+            # ans初始化为一个可以判定不合理的值
+            # 最后left, right跳出，判断对应位置是否等于target 👍
+            ans = len(nums)
+            while left <= right:
+                mid = (left + right) // 2
+                # 不够小，或者相等情况下要找更小的位置，就往左边挤压
+                if nums[mid] > target or (lower and nums[mid] >= target):
+                    right = mid - 1
+                    ans = mid
+                # 太大了，需要往右边看。找到相等的，需要往右边看看还有没有相等的
+                else:
+                    left = mid + 1
+            return ans
 
+        left_index = _binary_search(nums, target, True)
+        right_index = _binary_search(nums, target, False) - 1
+        if (
+            left_index <= right_index
+            and right_index < len(nums)
+            and nums[left_index] == target
+            and nums[right_index] == target
+        ):
+            return [left_index, right_index]
+        return [-1, -1]
 
 
 # if __name__ == "__main__":
