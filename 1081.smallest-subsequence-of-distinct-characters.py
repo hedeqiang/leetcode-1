@@ -56,12 +56,12 @@ class Solution(object):
     def smallestSubsequence(self, text):
         seen = set()
         stack = []
+        # 记录每个字母还可以删除几次，也可以保存每个字符最右边的位置用于判断
         remain_counter = collections.Counter(text)
         for c in text:
-            # can only preserve unique characters
+            # 每个字母只能出现一次，之前出现过的，现在没有出现过的意义，这是一个单调递增的栈
             if c not in seen:
-                # if the pre char is deleted, it should not be seen
-                # only if there is no quota to delete
+                # 栈顶太大了，而且后面还有
                 while stack and stack[-1] > c and remain_counter[stack[-1]] > 0:
                     seen.discard(stack.pop())
                 stack.append(c)
