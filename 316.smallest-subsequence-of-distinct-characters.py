@@ -38,10 +38,12 @@
 
 class Solution(object):
     def removeDuplicateLetters(self, s):
+        # 记录最后一个位置，作为判断是会否要丢掉的依据
         rindex = {c: i for i, c in enumerate(s)}
         result = ''
         for i, c in enumerate(s):
             if c not in result:
+                # 栈顶大了，且后面还有
                 while c < result[-1:] and i < rindex[result[-1]]:
                     result = result[:-1]
                 result += c
