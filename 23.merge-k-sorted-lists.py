@@ -12,9 +12,9 @@
 # Testcase Example:  '[[1,4,5],[1,3,4],[2,6]]'
 #
 # 合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
-# 
+#
 # 示例:
-# 
+#
 # 输入:
 # [
 # 1->4->5,
@@ -22,13 +22,14 @@
 # 2->6
 # ]
 # 输出: 1->1->2->3->4->4->5->6
-# 
+#
 #
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
+
 
 class Solution(object):
     def mergeTwoLists(self, l1, l2):
@@ -37,7 +38,7 @@ class Solution(object):
         :type l2: ListNode
         :rtype: ListNode
         """
-        head1, head2, dummy_head= l1, l2, ListNode(None)
+        head1, head2, dummy_head = l1, l2, ListNode(None)
         cur = dummy_head
         while head1 or head2:
             if not head1:
@@ -67,13 +68,14 @@ class Solution(object):
         if len(lists) == 2:
             return self.mergeTwoLists(lists[0], lists[1])
         # 所有依次排，超时
-        #merged_list = lists[0]
-        #for i in range(1, len(lists)):
+        # merged_list = lists[0]
+        # for i in range(1, len(lists)):
         #    merged_list = self.mergeTwoLists(merged_list, lists[i])
 
         # 左右分割，分而治之
         mid = len(lists) / 2
         left_lists = lists[:mid]
         right_lists = lists[mid:]
-        return self.mergeTwoLists(self.mergeKLists(left_lists), self.mergeKLists(right_lists))
-
+        return self.mergeTwoLists(
+            self.mergeKLists(left_lists), self.mergeKLists(right_lists)
+        )

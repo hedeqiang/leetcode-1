@@ -80,6 +80,7 @@ class Solution(object):
 
 class Solution0(object):
     """k的方向错了"""
+
     def rotateRight(self, head, k):
         """
         :type head: ListNode
