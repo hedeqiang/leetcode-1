@@ -34,10 +34,13 @@
 # 	所有节点的值都是唯一的。
 # 	p、q 为不同节点且均存在于给定的二叉树中。
 
+
 class Solution(object):
-    def lowestCommonAncestor(self, root, q, p):
+    def lowestCommonAncestor(self, root, p, q):
+        # if not root or root.val == p or root.val == q:
         if not root or root == p or root == q:
             return root
+
         left = self.lowestCommonAncestor(root.left, p, q)
         right = self.lowestCommonAncestor(root.right, p, q)
         if not left:
