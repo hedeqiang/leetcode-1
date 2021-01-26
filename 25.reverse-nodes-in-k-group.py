@@ -83,3 +83,27 @@ class Solution:
 
         # prev已经退到新的头
         return prev
+
+
+    def reverseKGroup(self, root, k):
+        if k <= 1:
+            return root
+        dummy = ListNode(0)
+        dummy.next = root
+        pre, cur = dummy, root
+        while True:
+            _k = k
+            cur_k = cur
+            while _k > 0 and cur_k:
+                cur_k = cur_k.next
+                _k -= 1
+            if _k > 0:
+                return dummy.next
+
+
+            nc = cur.next
+            while nc is not cur_k:
+                nc.next, nc, cur = cur, nc.next, nc
+
+            pre.next.next, pre.next, cur, pre = cur_k, cur, cur_k, pre.next
+
