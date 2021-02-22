@@ -49,6 +49,7 @@
 # 	如果矩阵存储在磁盘上，并且内存有限，以至于一次最多只能将矩阵的一行加载到内存中，该怎么办？
 # 	如果矩阵太大，以至于一次只能将不完整的一行加载到内存中，该怎么办？
 
+from collections import deque
 
 class Solution(object):
     def isToeplitzMatrix0(self, matrix):
@@ -62,7 +63,7 @@ class Solution(object):
                     return False
         return True
 
-    def isToeplitzMatrix(self, matrix):
+    def isToeplitzMatrix1(self, matrix):
         if not matrix or len(matrix) <= 1:
             return True
         m = len(matrix)
@@ -89,3 +90,30 @@ class Solution(object):
                 j += 1
 
         return True
+
+
+    def isToeplitzMatrix(self, matrix):
+        if not matrix or not matrix[0]:
+            return False
+
+        m, n = len(matrix), len(matrix[0])
+
+        expected = deque(matrix[0])
+        for row_idx in range(1, m):
+            row = matrix[row_idx]
+            # 将期望行右移1位：丢掉最右边，用读取行最左位补齐，下一轮用
+            expected.pop()
+            expected.appendleft(row[0])
+
+            # 从偏移位置开始比较
+            for i in range(1, n):
+                if not expected[i] == row[i]:
+                    return False
+        return True
+
+        """
+        1, 2, 3, 4   ->          1, 2, 3, 4    : pop 4
+        5, 1, 2, 3   ->       5, 1, 2, 3       : pop 3
+        6, 5, 1, 2   ->    6, 5, 1, 2          : pop 2
+        7, 6, 5, 1   -> 7, 6, 5, 1
+        """
