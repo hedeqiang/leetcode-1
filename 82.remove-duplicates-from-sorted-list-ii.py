@@ -26,14 +26,16 @@
 #
 #
 # Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
 
 
-class Solution0(object):
-    def deleteDuplicates(self, head):
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution(object):
+    def deleteDuplicates0(self, head):
         """
         :type head: ListNode
         :rtype: ListNode
@@ -68,9 +70,7 @@ class Solution0(object):
 
         return dummy_head.next
 
-
-class Solution:
-    def deleteDuplicates(self, head):
+    def deleteDuplicates1(self, head):
         dummy_head = pre = ListNode(None)
         dummy_head.next = cur = head
         while cur and cur.next:
@@ -84,3 +84,28 @@ class Solution:
                 pre = pre.next
                 cur = cur.next
         return dummy_head.next
+
+    def deleteDuplicates2(self, head):
+        if not head or not head.next:
+            return head
+        if head.val != head.next.val:
+            head.next = self.deleteDuplicates(head.next)
+        else:
+            cur = head.next
+            while cur and cur.val == head.val:
+                cur = cur.next
+            return self.deleteDuplicates(cur)
+        return head
+
+    def deleteDuplicates(self, head):
+        dummy = ListNode(next=head)
+        pre, cur = dummy, head
+        while cur:
+            while cur.next and cur.next.val == cur.val:
+                cur = cur.next
+            if pre.next == cur:
+                pre = pre.next
+            else:
+                pre.next = cur.next
+            cur = cur.next
+        return dummy.next
