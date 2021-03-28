@@ -43,7 +43,7 @@ class ListNode(object):
 
 
 class Solution(object):
-    def rotateRight(self, head, k):
+    def rotateRight0(self, head, k):
         """
         :type head: ListNode
         :type k: int
@@ -77,37 +77,65 @@ class Solution(object):
 
         return dummy.next
 
-
-class Solution0(object):
-    """k的方向错了"""
-
     def rotateRight(self, head, k):
-        """
-        :type head: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
-        l = dummy = ListNode(None)
-        r = dummy.next = head
+        if not head:
+            return head
 
-        count = 0
-        while count < k and r:
-            l = r
-            r = r.next
-            count += 1
+        slow = fast = head
+        i = 0
+        while i < k:
+            i += 1
+            fast = fast.next
+            if not fast:
+                k = k % i
+                i = 0
+                fast = head
 
-        if not r:
-            if count == k:
-                return head
-            k = k % count
-            return self.rotateRight(head, k)
+        # print(f"{slow.val=}, {fast.val=}")
 
-        l.next = None
-        dummy.next = r
+        if slow == fast:
+            return head
 
-        while r.next:
-            r = r.next
+        while fast.next:
+            slow = slow.next
+            fast = fast.next
+            # print(f"{slow.val=}, {fast.val=}")
 
-        r.next = head
+        new_head = slow.next
+        slow.next = None
+        fast.next = head
 
+        return new_head
+
+
+def test():
+    def init_list(items):
+        dummy = ListNode(None)
+        cur = dummy
+        for x in items:
+            cur.next = ListNode(x)
+            cur = cur.next
         return dummy.next
+
+    def print_list(head):
+        tmp = []
+        cur = head
+        while cur:
+            tmp.append(str(cur.val))
+            cur = cur.next
+        print("->".join(tmp))
+
+    # for k in range(1, 11):
+    #     print(f"{k=}")
+    #     head = init_list(range(1, 6))
+    #     print_list(head)
+    #     new_head = Solution().rotateRight(head, k)
+    #     print_list(new_head)
+    #     print("-" * 10)
+
+    # head = init_list([1,2,3])
+    # new_head = Solution().rotateRight(head, 20000)
+    # print_list(new_head)
+
+
+# test()
